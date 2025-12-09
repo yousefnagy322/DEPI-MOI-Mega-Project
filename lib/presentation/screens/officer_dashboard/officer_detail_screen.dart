@@ -9,6 +9,7 @@ import 'package:migaproject/presentation/screens/officer_dashboard/attachment_sc
 import 'package:migaproject/presentation/screens/officer_dashboard/attachment_screens/videoplayer_screen.dart';
 import 'package:migaproject/presentation/widgets/loading_snackbar.dart';
 import 'package:migaproject/presentation/widgets/success_snackbar.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
 class ReportDetailScreen extends StatefulWidget {
@@ -26,10 +27,29 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
   String? newStatus;
   TextEditingController notesController = TextEditingController();
 
+  void launchURL(String url) async {
+    final Uri uri = Uri.parse(url);
+
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      throw Exception("Could not launch $url");
+    }
+  }
+
+  Future<void> searchLocationOnMap(String userInput) async {
+    final query = Uri.encodeComponent(userInput);
+
+    final Uri url = Uri.parse(
+      "https://www.google.com/maps/search/?api=1&query=$query",
+    );
+
+    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+      throw Exception("Could not search location");
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    print(widget.report.attachments[1].downloadUrl);
   }
 
   Future<Uint8List?> generateThumbnail(String videoUrl) async {
@@ -144,14 +164,28 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
                         SizedBox(width: 4),
 
                         if (widget.report.location.startsWith('https://')) ...[
-                          Text(
-                            'Google maps link',
-                            style: TextStyle(color: Colors.black87),
+                          GestureDetector(
+                            onTap: () {
+                              launchURL(widget.report.location);
+                            },
+                            child: Text(
+                              'Google maps link',
+                              style: TextStyle(
+                                decoration: TextDecoration.underline,
+                                decorationColor: Colors.blue,
+                                color: Colors.blue,
+                              ),
+                            ),
                           ),
                         ] else
-                          Text(
-                            widget.report.location,
-                            style: TextStyle(color: Colors.black87),
+                          GestureDetector(
+                            onTap: () {
+                              searchLocationOnMap(widget.report.location);
+                            },
+                            child: Text(
+                              widget.report.location,
+                              style: TextStyle(color: Colors.black87),
+                            ),
                           ),
                       ],
                     ),
@@ -159,7 +193,23 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
                     const SizedBox(height: 24),
                     const Divider(),
                     const SizedBox(height: 16),
-
+                    const Text(
+                      "Description",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      widget.report.descriptionText,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                        color: Colors.black87,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
                     // AI Insights Block
                     Container(
                       padding: const EdgeInsets.all(16),

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:migaproject/Data/report_model.dart';
 import 'package:migaproject/Logic/new_report/state.dart';
 import 'package:migaproject/core/api_paths.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NewReportCubit extends Cubit<NewReportState> {
   NewReportCubit() : super(NewReportInitialState());
@@ -12,6 +13,9 @@ class NewReportCubit extends Cubit<NewReportState> {
 
     Dio dio = Dio();
 
+    final prefs = await SharedPreferences.getInstance();
+    final accessToken = prefs.getString('accessToken');
+
     try {
       final formData = await sentreport.toFormData();
 
@@ -20,6 +24,7 @@ class NewReportCubit extends Cubit<NewReportState> {
         data: formData,
         options: Options(
           headers: {
+            'authorization': 'Bearer ${accessToken}',
             'accept': 'application/json',
             'Content-Type': 'multipart/form-data',
           },

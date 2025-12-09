@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:migaproject/Logic/signup/state.dart';
+import 'package:migaproject/core/api_paths.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // class SignUpCubit extends Cubit<SignUpState> {
@@ -61,6 +62,7 @@ class SignUpCubit extends Cubit<SignUpState> {
     required String email,
     required String password,
     required String phoneNumber,
+    String? role,
   }) async {
     emit(SignUpLoadingState());
 
@@ -76,19 +78,19 @@ class SignUpCubit extends Cubit<SignUpState> {
     }
 
     if (!phoneNumber.startsWith('+')) {
-      phoneNumber = '+$phoneNumber';
+      phoneNumber = '+2$phoneNumber';
     }
 
     Dio dio = Dio();
 
     try {
       final response = await dio.post(
-        'https://moi-bxe3dvd5hnayazbs.uaenorth-01.azurewebsites.net/api/v1/auth/register',
+        ApiPaths.signup,
         data: {
           'email': email,
           'password': password,
           'phoneNumber': phoneNumber,
-          'role': 'citizen',
+          'role': role ?? 'citizen',
           'hashedDeviceId': 'string',
         },
         options: Options(

@@ -6,6 +6,8 @@ import 'package:migaproject/Logic/signup/cubit.dart';
 import 'package:migaproject/Logic/signup/state.dart';
 
 import 'package:migaproject/presentation/screens/my_reports/my_reports_screen.dart';
+import 'package:migaproject/presentation/widgets/loading_snackbar.dart';
+import 'package:migaproject/presentation/widgets/success_snackbar.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -33,11 +35,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
         child: BlocConsumer<SignUpCubit, SignUpState>(
           listener: (context, state) {
             if (state is SignUpLoadingState) {
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(LoadingSnackBar(message: "Signing up..."));
               setState(() {
                 isloading = true;
               });
             } else if (state is SignUpSuccessState) {
-              Navigator.push(
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SuccessSnackBar(message: 'Signup successful'));
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => ReportsScreen()),
               );
@@ -119,7 +129,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       // phone number Field
                       TextFormField(
                         validator: (value) {
-                          if (value == null || value.isEmpty) {
+                          if (value == null ||
+                              value.isEmpty && value.length >= 11) {
                             return 'Please enter your phone number';
                           }
                           return null;
@@ -219,17 +230,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 borderRadius: BorderRadius.circular(16),
                               ),
                             ),
-                            child: isloading
-                                ? CircularProgressIndicator()
-                                : const Text(
-                                    'Sign Up',
-                                    style: TextStyle(
-                                      fontFamily: 'inter',
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 18,
-                                      color: Colors.white,
-                                    ),
-                                  ),
+                            child: const Text(
+                              'Sign Up',
+                              style: TextStyle(
+                                fontFamily: 'inter',
+                                fontWeight: FontWeight.w500,
+                                fontSize: 18,
+                                color: Colors.white,
+                              ),
+                            ),
                           ),
                         ),
                       ),

@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:migaproject/Logic/officer_report_details/state.dart';
 import 'package:migaproject/core/api_paths.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OfficerReportDetailsCubit extends Cubit<OfficerReportDetailsState> {
   OfficerReportDetailsCubit() : super(OfficerReportDetailsInitialState());
@@ -15,12 +16,16 @@ class OfficerReportDetailsCubit extends Cubit<OfficerReportDetailsState> {
 
     Dio dio = Dio();
 
+    final prefs = await SharedPreferences.getInstance();
+    final accessToken = prefs.getString('accessToken');
+
     try {
       final response = await dio.put(
         '${ApiPaths.baseUrl}/api/v1/reports/$reportid/status',
         data: {'status': status, 'notes': notes},
         options: Options(
           headers: {
+            'authorization': 'Bearer $accessToken',
             'Content-Type': 'application/json',
             'accept': 'application/json',
           },

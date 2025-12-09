@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:migaproject/Logic/officer_report_details/cubit.dart';
-import 'package:migaproject/Logic/officer_reports/cubit.dart';
-import 'package:migaproject/Logic/officer_reports/state.dart';
+import 'package:migaproject/Logic/officer_reports_list/cubit.dart';
+import 'package:migaproject/Logic/officer_reports_list/state.dart';
+import 'package:migaproject/presentation/screens/Auth_screens/login_screen.dart';
 import 'package:migaproject/presentation/screens/officer_dashboard/officer_detail_screen.dart';
 
 class OfficerDashboard extends StatelessWidget {
@@ -17,12 +18,30 @@ class OfficerDashboard extends StatelessWidget {
     }
 
     return BlocProvider(
-      create: (context) => OfficerReportsCubit()..fetchOfficerReports(),
+      create: (context) => OfficerReportsCubit()..fetchOfficerdata(),
       child: Scaffold(
         backgroundColor: const Color(0xffF5F5F5),
         appBar: AppBar(
+          scrolledUnderElevation: 0,
+          elevation: 0,
           automaticallyImplyLeading: false,
           backgroundColor: const Color(0xffF5F5F5),
+          actions: [
+            IconButton(
+              icon: const Icon(
+                Icons.logout,
+                color: Color.fromARGB(255, 232, 73, 71),
+              ),
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginScreen()),
+                );
+              },
+            ),
+
+            const SizedBox(width: 16),
+          ],
           title: const Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -34,32 +53,34 @@ class OfficerDashboard extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Text(
-                'Jurisdiction: District 1',
-                style: TextStyle(color: Color(0xffBDBDBD), fontSize: 12),
-              ),
+              // Text(
+              //   'Jurisdiction: District 1',
+              //   style: TextStyle(color: Color(0xffBDBDBD), fontSize: 12),
+              // ),
             ],
           ),
-          actions: [
-            IconButton(
-              icon: const Icon(
-                Icons.notifications_outlined,
-                color: Color(0xff424242),
-              ),
-              onPressed: () {},
-            ),
-            const CircleAvatar(
-              backgroundColor: Color(0xff424242),
-              child: Icon(Icons.person, color: Colors.white),
-            ),
-            const SizedBox(width: 16),
-          ],
+          // actions: [
+          //   IconButton(
+          //     icon: const Icon(
+          //       Icons.notifications_outlined,
+          //       color: Color(0xff424242),
+          //     ),
+          //     onPressed: () {},
+          //   ),
+          //   const CircleAvatar(
+          //     backgroundColor: Color(0xff424242),
+          //     child: Icon(Icons.person, color: Colors.white),
+          //   ),
+          //   const SizedBox(width: 16),
+          // ],
         ),
 
         body: BlocBuilder<OfficerReportsCubit, OfficerReportsState>(
           builder: (context, state) {
             if (state is OfficerReportsLoadingState) {
-              return const Center(child: CircularProgressIndicator());
+              return const Center(
+                child: CircularProgressIndicator(color: Color(0xff424242)),
+              );
             } else if (state is OfficerReportsErrorState) {
               return Center(child: Text(state.error));
             } else if (state is OfficerReportsSuccessState) {
@@ -69,12 +90,12 @@ class OfficerDashboard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // 1. Stats Row
-                    const Row(
+                    Row(
                       children: [
                         Expanded(
                           child: StatCard(
                             title: 'Submitted',
-                            count: '12',
+                            count: state.counts.submitted.toString(),
                             color: Colors.orange,
                           ),
                         ),
@@ -82,7 +103,7 @@ class OfficerDashboard extends StatelessWidget {
                         Expanded(
                           child: StatCard(
                             title: 'In Progress',
-                            count: '5',
+                            count: state.counts.inProgress.toString(),
                             color: Colors.blue,
                           ),
                         ),
@@ -90,7 +111,7 @@ class OfficerDashboard extends StatelessWidget {
                         Expanded(
                           child: StatCard(
                             title: 'Resolved',
-                            count: '28',
+                            count: state.counts.resolved.toString(),
                             color: Colors.green,
                           ),
                         ),
@@ -228,6 +249,26 @@ class ReportCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String getCategoryImage(String category) {
+      if (category == "traffic") {
+        return 'assets/images/Traffic.png';
+      } else if (category == "crime") {
+        return 'assets/images/Theft.png';
+      } else if (category == "environmental") {
+        return 'assets/images/enviroment.png';
+      } else if (category == "Public_Nuisance") {
+        return 'assets/images/Noise.png';
+      } else if (category == "Utilities") {
+        return 'assets/images/Utilities.png';
+      } else if (category == "Infrastructure") {
+        return 'assets/images/Missing.png';
+      } else if (category == "Other") {
+        return 'assets/images/Other.png';
+      } else {
+        return 'assets/images/Other.png';
+      }
+    }
+
     return Card(
       margin: const EdgeInsets.only(bottom: 16),
       elevation: 0,
@@ -250,10 +291,9 @@ class ReportCard extends StatelessWidget {
                 height: 50,
                 width: 50,
                 decoration: BoxDecoration(
-                  color: Colors.blue[50],
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: const Icon(Icons.directions_car, color: Colors.blue),
+                child: Image.asset(getCategoryImage(category)),
               ),
               const SizedBox(width: 16),
               // Content
@@ -289,11 +329,11 @@ class ReportCard extends StatelessWidget {
                           Colors.black87,
                         ),
                         const SizedBox(width: 8),
-                        _buildTag(
-                          "AI: $confidence%",
-                          Colors.green.shade50,
-                          Colors.green,
-                        ),
+                        // _buildTag(
+                        //   "AI: $confidence%",
+                        //   Colors.green.shade50,
+                        //   Colors.green,
+                        // ),
                       ],
                     ),
                   ],

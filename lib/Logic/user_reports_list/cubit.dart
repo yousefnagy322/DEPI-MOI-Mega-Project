@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:migaproject/Data/report_model.dart';
-import 'package:migaproject/Logic/user_reports/state.dart';
+import 'package:migaproject/Logic/user_reports_list/state.dart';
 import 'package:migaproject/core/api_paths.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,7 +20,12 @@ class MyReportsCubit extends Cubit<MyReportsState> {
     try {
       final response = await dio.get(
         '${ApiPaths.listUserReports}$userId',
-        options: Options(headers: {'accept': 'application/json'}),
+        options: Options(
+          headers: {
+            'authorization': 'Bearer ${prefs.getString('accessToken')}',
+            'accept': 'application/json',
+          },
+        ),
       );
 
       print(response.data);

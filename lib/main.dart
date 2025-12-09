@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:migaproject/presentation/admin/admin_login_screen.dart';
-import 'package:migaproject/presentation/screens/Splash/splashScreen.dart';
+import 'package:migaproject/presentation/screens/Splash/splash_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,6 +13,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: kIsWeb ? AdminLoginScreen() : Splashscreen());
+    return MaterialApp(
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue[100]!),
+      ),
+
+      home: kIsWeb ? AdminLoginScreen() : Splashscreen(),
+    );
   }
 }

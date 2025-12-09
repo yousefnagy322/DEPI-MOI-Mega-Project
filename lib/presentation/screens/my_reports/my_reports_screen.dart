@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:migaproject/Logic/user_reports/cubit.dart';
-import 'package:migaproject/Logic/user_reports/state.dart';
+import 'package:migaproject/Logic/user_reports_list/cubit.dart';
+import 'package:migaproject/Logic/user_reports_list/state.dart';
 import 'package:migaproject/presentation/screens/Report_Form/select_category_screen.dart';
 import 'package:migaproject/presentation/widgets/nav_item.dart';
 import 'package:migaproject/presentation/widgets/report_card.dart';
@@ -16,6 +16,26 @@ class ReportsScreen extends StatefulWidget {
 
 class _ReportsScreenState extends State<ReportsScreen> {
   int selectedIndex = 0; // Reports tab selected
+
+  String getCategoryImage(String category) {
+    if (category == "traffic") {
+      return 'assets/images/Traffic.png';
+    } else if (category == "crime") {
+      return 'assets/images/Theft.png';
+    } else if (category == "environmental") {
+      return 'assets/images/enviroment.png';
+    } else if (category == "Public_Nuisance") {
+      return 'assets/images/Noise.png';
+    } else if (category == "Utilities") {
+      return 'assets/images/Utilities.png';
+    } else if (category == "Infrastructure") {
+      return 'assets/images/Missing.png';
+    } else if (category == "Other") {
+      return 'assets/images/Other.png';
+    } else {
+      return 'assets/images/Other.png';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,38 +67,6 @@ class _ReportsScreenState extends State<ReportsScreen> {
                       const SizedBox(height: 24),
 
                       // Reports List
-                      // Expanded(
-                      //   child: ListView(
-                      //     children: [
-                      //       _ReportCard(
-                      //         icon: Icons.directions_car,
-                      //         iconColor: Colors.blue,
-                      //         title: 'Traffic violation\nat intersection',
-                      //         trackingId: 'MOI-2025-2216',
-                      //         status: 'In Progress',
-                      //         statusColor: Colors.blue,
-                      //       ),
-                      //       const SizedBox(height: 12),
-                      //       _ReportCard(
-                      //         icon: Icons.warning_amber_rounded,
-                      //         iconColor: Colors.blue,
-                      //         title: 'Stolen Vehicle report',
-                      //         trackingId: 'MOI-2025-2216',
-                      //         status: 'Under Review',
-                      //         statusColor: Colors.orange,
-                      //       ),
-                      //       const SizedBox(height: 12),
-                      //       _ReportCard(
-                      //         icon: Icons.directions_car,
-                      //         iconColor: Colors.blue,
-                      //         title: 'Traffic violation\nat intersection',
-                      //         trackingId: 'MOI-2025-2216',
-                      //         status: 'Resolved',
-                      //         statusColor: Colors.green,
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
                       Expanded(
                         child: BlocBuilder<MyReportsCubit, MyReportsState>(
                           builder: (context, state) {
@@ -90,24 +78,31 @@ class _ReportsScreenState extends State<ReportsScreen> {
                               );
                             } else if (state is MyReportsSuccessState) {
                               final reports = state.reports;
-                              return ListView.builder(
-                                itemCount: reports.length,
-                                itemBuilder: (context, index) {
-                                  final report = reports[index];
-                                  return ReportCard(
-                                    icon: Icons.report,
-                                    iconColor: Colors.blue,
-                                    title: report.title,
-                                    trackingId: report.reportId!,
-                                    status: report.status!,
-                                    statusColor: report.status == 'Resolved'
-                                        ? Colors.green
-                                        : report.status == 'Under Review'
-                                        ? Colors.orange
-                                        : Colors.blue,
-                                  );
-                                },
-                              );
+
+                              if (reports.isEmpty) {
+                                return const Center(
+                                  child: Text('No reports available.'),
+                                );
+                              } else {
+                                return ListView.builder(
+                                  itemCount: reports.length,
+                                  itemBuilder: (context, index) {
+                                    final report = reports[index];
+                                    return ReportCard(
+                                      icon: getCategoryImage(report.categoryId),
+
+                                      title: report.title,
+                                      trackingId: report.reportId!,
+                                      status: report.status!,
+                                      statusColor: report.status == 'Resolved'
+                                          ? Colors.green
+                                          : report.status == 'Under Review'
+                                          ? Colors.orange
+                                          : Colors.blue,
+                                    );
+                                  },
+                                );
+                              }
                             } else if (state is MyReportsErrorState) {
                               return Center(
                                 child: Text('Error: ${state.error}'),

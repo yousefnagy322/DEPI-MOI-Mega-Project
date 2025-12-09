@@ -14,10 +14,7 @@ class StatusBadge extends StatelessWidget {
       decoration: BoxDecoration(
         color: statusInfo.color.withOpacity(0.12),
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(
-          color: statusInfo.color.withOpacity(0.3),
-          width: 1,
-        ),
+        border: Border.all(color: statusInfo.color.withOpacity(0.3), width: 1),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -42,14 +39,16 @@ class StatusBadge extends StatelessWidget {
 
   _StatusInfo _getStatusInfo(String status) {
     switch (status) {
-      case "In Progress":
+      case "InProgress":
         return _StatusInfo(Colors.blue, Icons.sync);
-      case "Under Review":
+      case "Submitted":
         return _StatusInfo(Colors.orange, Icons.visibility);
       case "Resolved":
         return _StatusInfo(Colors.green, Icons.check_circle);
-      case "New":
+      case "Rejected":
         return _StatusInfo(Colors.red, Icons.new_releases);
+      case "Assigned":
+        return _StatusInfo(Colors.purple, Icons.badge);
       default:
         return _StatusInfo(Colors.grey, null);
     }
@@ -62,4 +61,3 @@ class _StatusInfo {
 
   _StatusInfo(this.color, this.icon);
 }
-

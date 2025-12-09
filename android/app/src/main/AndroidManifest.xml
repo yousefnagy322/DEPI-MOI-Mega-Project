@@ -13,7 +13,7 @@
 
 
     <application
-        android:label="migaproject"
+        android:label="MOI Digital Reporting System"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

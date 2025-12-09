@@ -11,5 +11,6 @@ class LoginErrorState extends LoginState {
 
 class LoginSuccessState extends LoginState {
   String role;
-  LoginSuccessState({required this.role});
+  String toekn;
+  LoginSuccessState({required this.role, required this.toekn});
 }

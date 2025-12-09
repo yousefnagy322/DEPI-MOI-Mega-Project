@@ -34,16 +34,29 @@ class LoginCubit extends Cubit<LoginState> {
         ),
       );
 
-      if (response.statusCode == 200) {
-        final userId = response.data['user_id'];
-        final role = response.data['role'];
+      // SUCCESS CASE
+      final userId = response.data['user_id'];
+      final role = response.data['role'];
+      final accessToken = response.data['access_token'];
 
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('userId', userId);
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('userId', userId);
+      await prefs.setString('accessToken', accessToken);
 
-        emit(LoginSuccessState(role: role));
+      emit(LoginSuccessState(role: role, toekn: accessToken));
+    } on DioException catch (e) {
+      // SPECIFIC ERROR HANDLING
+      final status = e.response?.statusCode;
+      final data = e.response?.data;
+
+      if (status == 401) {
+        emit(LoginErrorState(error: data?['detail'] ?? "Unauthorized"));
       } else {
-        emit(LoginErrorState(error: 'Login failed: ${response.statusCode}'));
+        emit(
+          LoginErrorState(
+            error: data?['detail'] ?? e.message ?? 'Unknown error',
+          ),
+        );
       }
     } catch (e) {
       emit(LoginErrorState(error: e.toString()));

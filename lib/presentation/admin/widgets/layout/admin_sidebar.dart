@@ -59,14 +59,7 @@ class AdminSidebar extends StatelessWidget {
             isActive: currentPageName == "User Management",
             onTap: () => onPageChanged("User Management", UsersPage()),
           ),
-          _MenuItem(
-            icon: Icons.settings,
-            text: "Settings",
-            page: const SettingsPage(),
-            pageName: "Settings",
-            isActive: currentPageName == "Settings",
-            onTap: () => onPageChanged("Settings", const SettingsPage()),
-          ),
+
           _MenuItem(
             icon: Icons.bar_chart,
             text: "Analytics",
@@ -76,6 +69,14 @@ class AdminSidebar extends StatelessWidget {
             onTap: () => onPageChanged("Analytics", const AnalyticsPage()),
           ),
 
+          // _MenuItem(
+          //   icon: Icons.settings,
+          //   text: "Settings",
+          //   page: const SettingsPage(),
+          //   pageName: "Settings",
+          //   isActive: currentPageName == "Settings",
+          //   onTap: () => onPageChanged("Settings", const SettingsPage()),
+          // ),
           const Spacer(),
 
           // Support and Logout
@@ -83,19 +84,16 @@ class AdminSidebar extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Column(
               children: [
-                ListTile(
-                  leading: const Icon(
-                    Icons.help_outline,
-                    color: Colors.grey,
-                  ),
-                  title: const Text(
-                    "Support",
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                  onTap: () {
-                    // Handle support
-                  },
-                ),
+                // ListTile(
+                //   leading: const Icon(Icons.help_outline, color: Colors.grey),
+                //   title: const Text(
+                //     "Support",
+                //     style: TextStyle(color: Colors.grey),
+                //   ),
+                //   onTap: () {
+                //     // Handle support
+                //   },
+                // ),
                 ListTile(
                   leading: const Icon(Icons.logout, color: Colors.grey),
                   title: const Text(
@@ -118,6 +116,7 @@ class AdminSidebar extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
+        backgroundColor: Colors.white,
         title: const Text('Logout'),
         content: const Text('Are you sure you want to logout?'),
         actions: [
@@ -192,4 +191,3 @@ class _MenuItem extends StatelessWidget {
     );
   }
 }
-

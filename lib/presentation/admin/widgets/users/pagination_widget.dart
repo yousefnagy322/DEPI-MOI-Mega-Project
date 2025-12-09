@@ -7,6 +7,7 @@ class PaginationWidget extends StatelessWidget {
   final int startIndex;
   final int endIndex;
   final Function(int) onPageChanged;
+  final String itemLabelPlural;
 
   const PaginationWidget({
     super.key,
@@ -16,6 +17,7 @@ class PaginationWidget extends StatelessWidget {
     required this.startIndex,
     required this.endIndex,
     required this.onPageChanged,
+    this.itemLabelPlural = 'items',
   });
 
   @override
@@ -30,8 +32,8 @@ class PaginationWidget extends StatelessWidget {
         children: [
           Text(
             totalItems > 0
-                ? "Showing ${startIndex + 1}-${endIndex} of $totalItems"
-                : "No users found",
+                ? "Showing ${startIndex + 1}-${endIndex} of $totalItems $itemLabelPlural"
+                : "No $itemLabelPlural found",
             style: const TextStyle(color: Colors.grey),
           ),
           if (totalPages > 1)

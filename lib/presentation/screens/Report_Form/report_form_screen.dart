@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:migaproject/presentation/screens/report_review/reportReviewScreen.dart';
+import 'package:migaproject/presentation/widgets/success_snackbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
@@ -652,20 +653,20 @@ class _ReportFormScreenState extends State<ReportFormScreen> {
                               ],
                             ),
                             const SizedBox(height: 12),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                _AttachmentButton(
-                                  icon: Icons.graphic_eq,
-                                  label: 'Audio',
-                                ),
-                                const SizedBox(width: 12),
-                                _AttachmentButton(
-                                  icon: Icons.description_outlined,
-                                  label: 'Document',
-                                ),
-                              ],
-                            ),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.center,
+                            //   children: [
+                            //     _AttachmentButton(
+                            //       icon: Icons.graphic_eq,
+                            //       label: 'Audio',
+                            //     ),
+                            //     const SizedBox(width: 12),
+                            //     _AttachmentButton(
+                            //       icon: Icons.description_outlined,
+                            //       label: 'Document',
+                            //     ),
+                            //   ],
+                            // ),
                           ],
                         ),
                       ),
@@ -674,71 +675,42 @@ class _ReportFormScreenState extends State<ReportFormScreen> {
                         _SectionCard(
                           child: SizedBox(
                             height: 100,
-                            child:
-                                // ListView.builder(
-                                //   scrollDirection: Axis.horizontal,
-                                //   itemCount: selectedFiles.length,
-                                //   itemBuilder: (context, index) {
-                                //     final file = selectedFiles[index];
-                                //     return Padding(
-                                //       padding: const EdgeInsets.only(right: 8.0),
-                                //       child: GestureDetector(
-                                //         onTap: () {
-                                //           setState(() {
-                                //             selectedFiles.removeAt(index);
-                                //           });
-                                //         },
-                                //         child: Image.file(
-                                //           file,
-                                //           width: 100,
-                                //           height: 100,
-                                //           fit: BoxFit.fill,
-                                //         ),
-                                //       ),
-                                //     );
-                                //   },
-                                // ),
-                                ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: selectedFiles.length,
-                                  itemBuilder: (context, index) {
-                                    final file = selectedFiles[index];
-                                    final isVideo = file.path.endsWith('.mp4');
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: selectedFiles.length,
+                              itemBuilder: (context, index) {
+                                final file = selectedFiles[index];
+                                final isVideo = file.path.endsWith('.mp4');
 
-                                    return Padding(
-                                      padding: const EdgeInsets.only(
-                                        right: 8.0,
-                                      ),
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            selectedFiles.removeAt(index);
-                                            videoThumbnails.remove(file);
-                                          });
-                                        },
-                                        child: Container(
-                                          width: 100,
-                                          height: 100,
-                                          color: Colors.grey[200],
-                                          child: isVideo
-                                              ? (videoThumbnails[file] != null
-                                                    ? Image.memory(
-                                                        videoThumbnails[file]!,
-                                                        fit: BoxFit.cover,
-                                                      )
-                                                    : Center(
-                                                        child:
-                                                            CircularProgressIndicator(),
-                                                      ))
-                                              : Image.file(
-                                                  file,
-                                                  fit: BoxFit.cover,
-                                                ),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ),
+                                return Padding(
+                                  padding: const EdgeInsets.only(right: 8.0),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        selectedFiles.removeAt(index);
+                                        videoThumbnails.remove(file);
+                                      });
+                                    },
+                                    child: Container(
+                                      width: 100,
+                                      height: 100,
+                                      color: Colors.grey[200],
+                                      child: isVideo
+                                          ? (videoThumbnails[file] != null
+                                                ? Image.memory(
+                                                    videoThumbnails[file]!,
+                                                    fit: BoxFit.cover,
+                                                  )
+                                                : Center(
+                                                    child:
+                                                        CircularProgressIndicator(),
+                                                  ))
+                                          : Image.file(file, fit: BoxFit.cover),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
                           ),
                         ),
                       ],
@@ -910,7 +882,8 @@ class _ReportFormScreenState extends State<ReportFormScreen> {
                 height: 46,
                 child: ElevatedButton(
                   onPressed: () {
-                    if (formkey.currentState!.validate()) {
+                    if (formkey.currentState!.validate() &&
+                        selectedFiles.isNotEmpty) {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -925,6 +898,13 @@ class _ReportFormScreenState extends State<ReportFormScreen> {
                                 ? locationLink!
                                 : locationController.text,
                           ),
+                        ),
+                      );
+                    } else if (formkey.currentState!.validate() &&
+                        selectedFiles.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SuccessSnackBar(
+                          message: 'Please upload at least one image or video',
                         ),
                       );
                     }

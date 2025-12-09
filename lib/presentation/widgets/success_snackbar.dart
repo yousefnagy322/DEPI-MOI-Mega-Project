@@ -15,6 +15,6 @@ class SuccessSnackBar extends SnackBar {
         behavior: SnackBarBehavior.floating,
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        duration: const Duration(seconds: 3),
+        // duration: const Duration(seconds: 3),
       );
 }
