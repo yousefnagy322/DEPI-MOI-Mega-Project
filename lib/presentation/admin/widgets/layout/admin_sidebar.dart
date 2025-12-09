@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../admin_login_screen.dart';
-import '../../dashboard_page.dart';
-import '../../reports_page.dart';
-import '../../users_page.dart';
-import '../../analytics_page.dart';
-import '../../settings_page.dart';
+import 'package:migaproject/presentation/admin/admin_login_screen.dart';
+import 'package:migaproject/presentation/admin/analytics_page.dart';
+import 'package:migaproject/presentation/admin/dashboard_page.dart';
+import 'package:migaproject/presentation/admin/reports_page.dart';
+import 'package:migaproject/presentation/admin/users_page.dart';
 
 class AdminSidebar extends StatelessWidget {
   final String currentPageName;
