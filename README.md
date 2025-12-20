@@ -1,4 +1,4 @@
-![MOI Digital Report System Banner](readme assets/banner.jpg)
+![MOI Digital Report System Banner](readme%20assets/banner.jpg)
 
 # DEPI MOI Digital Report System 📊
 
