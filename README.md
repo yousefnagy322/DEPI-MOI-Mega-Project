@@ -1,54 +1,86 @@
+![MOI Digital Report System Banner](./banner.png)
+
 # DEPI MOI Digital Report System 📊
 
-![Project Banner](link-to-banner-or-screenshot)
+![Flutter](https://img.shields.io/badge/Flutter-3.x-blue)
+![Dart](https://img.shields.io/badge/Dart-3.x-blue)
+![Platform](https://img.shields.io/badge/Platform-Android%20%7C%20iOS%20%7C%20Web-green)
+![License](https://img.shields.io/badge/License-MIT-orange)
 
-A **cross-platform Flutter application** for citizens to report issues to government authorities, with separate interfaces for users, officers, and admins. The app supports real-time reporting, media attachments, analytics, and role-based access control.
+A **cross-platform Flutter application** that enables citizens to report issues to government authorities digitally, with dedicated interfaces for **Users**, **Officers**, and **Administrators**.  
+The system supports **real-time reporting**, **media attachments**, **analytics dashboards**, and **secure role-based access control**.
 
 ---
 
 ## 🌟 Key Features
 
-### User Features
+### 👤 User Features
+- Submit reports in categories:
+  - Traffic
+  - Crime
+  - Public Nuisance
+  - Utilities
+  - Infrastructure
+  - Environmental
+  - Other
+- Attach **images, videos, or voice-to-text** descriptions
+- Automatic **GPS location capture**
+- **Anonymous reporting** using privacy-focused device ID hashing
+- Track report status:
+  - Submitted → Assigned → In Progress → Resolved / Rejected
 
-* Submit reports in categories: Traffic, Crime, Public Nuisance, Utilities, Infrastructure, Environmental, Other
-* Add **images, videos, or voice-to-text** descriptions
-* Automatic **GPS location capture**
-* **Anonymous reporting** with privacy-focused device ID hashing
-* Track report status: Submitted → Assigned → In Progress → Resolved/Rejected
+---
 
-### Officer Dashboard
+### 🧑‍✈️ Officer Dashboard
+- View and manage incoming reports
+- Filter reports by **category, status, and date**
+- Update report status and add notes
+- Access report details including media and location
+- Overview dashboard with **recent reports and quick metrics**
 
-* Manage incoming reports with **filters and status updates**
-* View **report details and attachments**
-* Dashboard overview with **recent reports and metrics**
+---
 
-### Admin Panel (Web)
+### 🛡 Admin Panel (Web)
+- User & role management (User / Officer / Admin)
+- Advanced reports analytics with **charts & statistics**
+- Category-based and status-based insights
+- System configuration & preferences
+- Fully responsive web interface
 
-* User and role management (User, Officer, Admin)
-* Reports analytics with **charts and category statistics**
-* System settings and preferences
-* Responsive design for multiple screen sizes
+---
 
-### Analytics
-
-* Category-wise report statistics
-* Status distribution charts
-* Trend analysis with **line charts**
-* Interactive data visualization using `fl_chart`
+### 📊 Analytics & Insights
+- Category-wise report statistics
+- Report status distribution
+- Trend analysis using **line charts**
+- Interactive data visualization with `fl_chart`
 
 ---
 
 ## 🛠 Technology Stack
 
-* **Flutter** ^3.9.2, **Dart**
-* **State Management**: BLoC (`flutter_bloc`)
-* **HTTP & API**: `dio`
-* **Location Services**: `geolocator`
-* **Media Handling**: `image_picker`, `video_player`, `video_thumbnail`
-* **Charts & Analytics**: `fl_chart`
-* **UI & Fonts**: `google_fonts`, `cupertino_icons`
-* **Utilities**: `shared_preferences`, `intl`, `url_launcher`, `equatable`
-* **Backend**: Azure App Service, REST API
+### Frontend
+- **Flutter** ^3.9.2
+- **Dart**
+- **State Management**: BLoC (`flutter_bloc`)
+- **UI & Fonts**: `google_fonts`, `cupertino_icons`
+
+### Networking & Services
+- **HTTP Client**: `dio`
+- **Location Services**: `geolocator`
+- **Media Handling**:
+  - `image_picker`
+  - `video_player`
+  - `video_thumbnail`
+
+### Analytics & Utilities
+- **Charts**: `fl_chart`
+- **Local Storage**: `shared_preferences`
+- **Utilities**: `intl`, `url_launcher`, `equatable`
+
+### Backend
+- **Azure App Service**
+- **RESTful API Architecture**
 
 ---
 
@@ -56,78 +88,89 @@ A **cross-platform Flutter application** for citizens to report issues to govern
 
 ```
 lib/
-├── core/                # Core utilities & API paths
+├── core/                # Core utilities, constants & API paths
 ├── Data/                # Data models (reports, users, analytics)
-├── Logic/               # BLoC/Cubit state management
-└── presentation/        # Screens & reusable widgets
+├── Logic/               # BLoC / Cubit state management
+└── presentation/        # UI screens & reusable widgets
 ```
 
 ---
 
 ## ⚡ Installation & Setup
 
-1. Clone the repo:
+### Prerequisites
+- Flutter SDK installed
+- Android Studio or VS Code
+- Emulator or physical device
 
+### Steps
+
+1. Clone the repository:
    ```bash
    git clone https://github.com/yousefnagy322/DEPI-MOI-Digital-Report-System.git
    ```
-2. Navigate into the project:
 
+2. Navigate to the project directory:
    ```bash
    cd DEPI-MOI-Digital-Report-System
    ```
-3. Install dependencies:
 
+3. Install dependencies:
    ```bash
    flutter pub get
    ```
-4. Run the app:
 
+4. Run the application:
    ```bash
    flutter run
    ```
 
-> **Note:** Configure the backend API URL in `api_paths.dart` before running.
+> ⚠️ **Note:**  
+> Configure the backend API base URL inside `api_paths.dart` before running the app.
 
 ---
 
 ## 🎨 Screenshots / Demo
 
+### 📱 Mobile Application
 ![Splash Screen](link-to-screenshot)
 ![Report Form](link-to-screenshot)
+![Report Tracking](link-to-screenshot)
+
+### 🧑‍✈️ Officer Dashboard
 ![Officer Dashboard](link-to-screenshot)
+
+### 🛡 Admin Panel (Web)
 ![Admin Analytics](link-to-screenshot)
 
 ---
 
-## 🚀 Future Enhancements
-
-* Push notifications for report updates
-* Real-time chat between users and officers
-* AI-based report categorization
-* Map integration and report sharing
-* Offline reporting mode
-* Multi-language support
+## 🔒 Security & Privacy
+- Anonymous reporting via **hashed device identifiers**
+- Token-based authentication
+- Secure role-based authorization
+- Privacy-focused system design
 
 ---
 
-## 🔒 Security Features
-
-* Device ID hashing for anonymous reports
-* Token-based authentication
-* Role-based access control
-* Privacy-focused design
+## 🚀 Future Enhancements
+- Push notifications for report updates
+- Real-time chat between users and officers
+- AI-based automatic report categorization
+- Map-based report visualization
+- Offline reporting mode
+- Multi-language support
 
 ---
 
 ## 📈 API Endpoints (Examples)
 
-* `POST /api/v1/auth/login` – User login
-* `POST /api/v1/auth/register` – User registration
-* `GET /api/v1/reports/` – List all reports
-* `POST /api/v1/reports/` – Submit a new report
+- `POST /api/v1/auth/login` – User login
+- `POST /api/v1/auth/register` – User registration
+- `GET /api/v1/reports` – Retrieve reports
+- `POST /api/v1/reports` – Submit a new report
 
-Full API documentation available in the codebase.
+Full API documentation is available in the codebase.
 
 ---
 
@@ -135,9 +178,10 @@ Full API documentation available in the codebase.
 
 **Yousef Nagy**
 
-* Email: [yousefnagy322@gmail.com](mailto:yousefnagy322@gmail.com)
-* GitHub: [yousefnagy322](https://github.com/yousefnagy322)
+- 📧 Email: [yousefnagy322@gmail.com](mailto:yousefnagy322@gmail.com)
+- 💻 GitHub: [yousefnagy322](https://github.com/yousefnagy322)
 
 ---
 
-⭐ *Thanks for checking out this project! It’s a comprehensive civic reporting system designed to empower citizens and authorities.*
+⭐ **Thank you for checking out this project!**  
+This system aims to modernize civic issue reporting and improve communication between citizens and government authorities.
