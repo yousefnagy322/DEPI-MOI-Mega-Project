@@ -133,15 +133,21 @@ lib/
 ## 🎨 Screenshots / Demo
 
 ### 📱 Mobile Application
-![Splash Screen](readme%20assets/splash%20screen.gif)
-![Report Form](link-to-screenshot)
-![Report Tracking](link-to-screenshot)
+<p>
+  <img src="readme assets/splash screen.gif" width="400"/>
+  <img src="readme assets/report_form.png" width="400"/>
+  <img src="readme assets/report_tracking.png" width="400"/>
+</p>
 
 ### 🧑‍✈️ Officer Dashboard
-![Officer Dashboard](link-to-screenshot)
+<p>
+  <img src="readme assets/officer_dashboard.png" width="560"/>
+</p>
 
 ### 🛡 Admin Panel (Web)
-![Admin Analytics](link-to-screenshot)
+<p>
+  <img src="readme assets/admin_analytics.png" width="760"/>
+</p>
 
 ---
 
