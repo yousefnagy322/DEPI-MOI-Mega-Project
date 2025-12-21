@@ -133,7 +133,7 @@ lib/
 ## 🎨 Screenshots / Demo
 
 ### 📱 Mobile Application
-![Splash Screen](link-to-screenshot)
+![Splash Screen](readme%20assets/splash screen.gif)
 ![Report Form](link-to-screenshot)
 ![Report Tracking](link-to-screenshot)
 
