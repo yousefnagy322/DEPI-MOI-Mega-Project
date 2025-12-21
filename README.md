@@ -135,13 +135,14 @@ lib/
 ### 📱 Mobile Application
 <p>
   <img src="readme assets/splash screen.gif" width="400"/>
-  <img src="readme assets/report_form.png" width="400"/>
+  <img src="readme assets/report_form.gif" width="400"/>
   <img src="readme assets/report_tracking.png" width="400"/>
 </p>
 
 ### 🧑‍✈️ Officer Dashboard
 <p>
-  <img src="readme assets/officer_dashboard.png" width="560"/>
+  <img src="readme assets/officer_dashboard.png" width="400"/>
+  <img src="readme assets/officer_dashboard.png" width="400"/>
 </p>
 
 ### 🛡 Admin Panel (Web)
